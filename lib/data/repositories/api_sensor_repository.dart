@@ -1,25 +1,51 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:iot_lab4/data/models/sensor.dart'; 
+import 'package:iot_lab4/data/models/sensor.dart';
 
 class ApiSensorRepository {
-  // Використовуємо JSONPlaceholder для імітації бекенду
-  final String _baseUrl = 'https://jsonplaceholder.typicode.com';
+  final String _url = 'https://randomuser.me/api/?results=5&nat=us';
 
   Future<List<Sensor>> fetchSensors() async {
     try {
-      // Запитуємо 5 "постів", які перетворимо на сенсори
-      final response = await http.get(Uri.parse('$_baseUrl/posts?_limit=5'));
+      // 1. Пробуємо чесно сходити в інтернет
+      final response = await http.get(Uri.parse(_url));
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body);
-        // Перетворюємо JSON у список Sensor
-        return data.map((json) => Sensor.fromApi(json)).toList();
+        final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        final List<dynamic> results = jsonResponse['results'];
+        
+        return results.map((item) {
+           final String name = item['name']['first'].toString();
+           final String roomName = "${name[0].toUpperCase()}${name.substring(1)} Room";
+           
+           return Sensor.fromApi({
+             'id': 0, // ID згенерується у fromApi або тут
+             'title': roomName,
+           });
+        }).toList();
       } else {
-        throw Exception('Failed to load data from API');
+        // Якщо сервер помилився - вмикаємо план Б
+        print('Server error ${response.statusCode}, using Mock data');
+        return _getMockData();
       }
     } catch (e) {
-      throw Exception('Network Error: $e');
+      // Якщо інтернету немає взагалі - вмикаємо план Б
+      print('Network exception: $e, using Mock data');
+      return _getMockData();
     }
+  }
+
+  // ПЛАН Б: Генерація даних, якщо інтернет не працює
+  List<Sensor> _getMockData() {
+    return List<Sensor>.generate(5, (index) {
+      return Sensor(
+        id: 'mock_$index',
+        roomName: 'Mock Room ${index + 1}',
+        co2: 400 + (index * 50),
+        temp: 20.0 + index,
+        humidity: 40 + (index * 2),
+        iconKey: index % 2 == 0 ? 'kitchen' : 'desktop',
+      );
+    });
   }
 }

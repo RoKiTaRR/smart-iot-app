@@ -14,7 +14,6 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  // Підключаємо два джерела даних
   final ApiSensorRepository _apiRepository = ApiSensorRepository();
   final LocalSensorRepository _localRepository = LocalSensorRepository();
   
@@ -32,24 +31,25 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
-  // РОЗУМНА ЛОГІКА: Спочатку Інтернет -> потім Пам'ять
   Future<List<Sensor>> _fetchDataSmartly() async {
-    final isOnline = await ConnectivityService.isOnline();
-
-    if (isOnline) {
-      try {
-        // 1. Є інтернет? Качаємо свіжі дані
-        final sensors = await _apiRepository.fetchSensors();
-        // 2. Одразу зберігаємо їх у пам'ять (кешуємо)
-        await _localRepository.saveSensors(sensors);
-        return sensors;
-      } catch (e) {
-        // 3. Якщо помилка сервера - пробуємо показати старі дані з пам'яті
-        return await _localRepository.getSensors();
+    try {
+      // Спробуємо завантажити з API
+      final sensors = await _apiRepository.fetchSensors();
+      // Зберігаємо в кеш
+      await _localRepository.saveSensors(sensors);
+      return sensors;
+    } catch (e) {
+      debugPrint("API Error: $e");
+      
+      // Пробуємо дістати з пам'яті
+      final cached = await _localRepository.getSensors();
+      
+      // ЯКЩО КЕШ ПУСТИЙ - ВИКИДАЄМО ПОМИЛКУ, ЩОБ ПОБАЧИТИ ЇЇ НА ЕКРАНІ
+      if (cached.isEmpty) {
+        throw Exception("$e"); 
       }
-    } else {
-      // 4. Немає інтернету? Беремо з пам'яті
-      return await _localRepository.getSensors();
+      
+      return cached;
     }
   }
 
@@ -63,7 +63,7 @@ class _DashboardPageState extends State<DashboardPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: _loadData, // Кнопка оновлення
+            onPressed: _loadData,
           ),
           IconButton(
             icon: const Icon(Icons.person_outline),
@@ -73,20 +73,18 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
       body: Column(
         children: [
-          // Червона плашка, якщо офлайн
           if (netStatus == ConnectivityStatus.offline)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(8),
               color: Colors.red[400],
               child: const Text(
-                'OFFLINE MODE: Using cached data',
+                'OFFLINE MODE',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
 
-          // Список даних
           Expanded(
             child: FutureBuilder<List<Sensor>>(
               future: _sensorsFuture,
@@ -94,9 +92,36 @@ class _DashboardPageState extends State<DashboardPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  // ТУТ МИ ПОКАЖЕМО ТОЧНУ ПОМИЛКУ
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Connection Error:',
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            '${snapshot.error}', // Саме текст помилки
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: _loadData,
+                            child: const Text('Try Again'),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No data found. Connect to internet.'));
+                  return const Center(child: Text('No data found.'));
                 }
 
                 final sensors = snapshot.data!;
@@ -106,25 +131,39 @@ class _DashboardPageState extends State<DashboardPage> {
                   itemCount: sensors.length,
                   itemBuilder: (context, index) {
                     final sensor = sensors[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          child: Icon(
-                            sensor.iconKey == 'kitchen' ? Icons.kitchen : Icons.desktop_windows,
-                          ),
-                        ),
-                        title: Text(sensor.roomName, style: const TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text('Temp: ${sensor.temp}°C | CO2: ${sensor.co2} ppm'),
-                        trailing: Text('${sensor.humidity}%'),
-                      ),
-                    );
+                    return _buildSensorCard(sensor);
                   },
                 );
               },
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSensorCard(Sensor sensor) {
+    IconData icon;
+    if (sensor.iconKey == 'kitchen') {
+      icon = Icons.kitchen;
+    } else if (sensor.iconKey == 'desktop') {
+      icon = Icons.desktop_windows;
+    } else {
+      icon = Icons.sensors;
+    }
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.blueGrey[50],
+          child: Icon(icon, color: Colors.blueGrey),
+        ),
+        title: Text(sensor.roomName, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text('Temp: ${sensor.temp}°C | CO2: ${sensor.co2} ppm'),
+        trailing: Text('${sensor.humidity}%', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       ),
     );
   }
