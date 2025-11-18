@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.iot_lab4"
+    namespace = "com.example.iot_lab5"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

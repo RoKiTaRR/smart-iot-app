@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Sensor {
   Sensor({
     required this.id,
@@ -17,6 +15,7 @@ class Sensor {
   int humidity;
   String iconKey;
 
+  // Для збереження в локальну пам'ять
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -28,31 +27,30 @@ class Sensor {
     };
   }
 
+  // Для читання з локальної пам'яті
   factory Sensor.fromJson(Map<String, dynamic> json) {
     return Sensor(
-      id: json['id'] as String,
-      roomName: json['roomName'] as String,
-      co2: json['co2'] as int,
-      temp: json['temp'] as double,
-      humidity: json['humidity'] as int,
-      iconKey: json['iconKey'] as String,
+      id: json['id'].toString(),
+      roomName: json['roomName'] ?? 'Unknown',
+      co2: json['co2'] ?? 0,
+      temp: (json['temp'] ?? 0.0).toDouble(),
+      humidity: json['humidity'] ?? 0,
+      iconKey: json['iconKey'] ?? 'sensors',
     );
   }
 
-  Sensor copyWith({
-    String? roomName,
-    int? co2,
-    double? temp,
-    int? humidity,
-    String? iconKey,
-  }) {
+  // НОВЕ: Для читання з Інтернету (фейковий API)
+  factory Sensor.fromApi(Map<String, dynamic> json) {
+    final int idInt = json['id'] as int;
     return Sensor(
-      id: id,
-      roomName: roomName ?? this.roomName,
-      co2: co2 ?? this.co2,
-      temp: temp ?? this.temp,
-      humidity: humidity ?? this.humidity,
-      iconKey: iconKey ?? this.iconKey,
+      id: idInt.toString(),
+      // Беремо заголовок посту як назву кімнати
+      roomName: (json['title'] as String).split(' ').first.toUpperCase() + ' Room',
+      // Генеруємо фейкові показники на основі ID
+      co2: 400 + (idInt * 20),
+      temp: 18.0 + (idInt % 10),
+      humidity: 30 + (idInt % 40),
+      iconKey: idInt % 2 == 0 ? 'kitchen' : 'desktop',
     );
   }
 }
