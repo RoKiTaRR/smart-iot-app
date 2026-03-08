@@ -1,6 +1,6 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:iot_lab4/data/models/user.dart';
-import 'package:iot_lab4/data/repositories/auth_repository.dart';
+﻿import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:smart_iot_app/data/models/user.dart';
+import 'package:smart_iot_app/data/repositories/auth_repository.dart';
 
 // Логіка автентифікації, тепер з SecureStorage
 class LocalAuthRepository implements AuthRepository {

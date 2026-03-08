@@ -1,4 +1,4 @@
-class User {
+﻿class User {
   const User({
     required this.name,
     required this.email,

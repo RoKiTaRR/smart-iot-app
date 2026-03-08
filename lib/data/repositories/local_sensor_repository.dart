@@ -1,6 +1,6 @@
-import 'dart:convert';
-import 'package:iot_lab4/data/models/sensor.dart';
-import 'package:iot_lab4/data/repositories/sensor_repository.dart';
+﻿import 'dart:convert';
+import 'package:smart_iot_app/data/models/sensor.dart';
+import 'package:smart_iot_app/data/repositories/sensor_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String _kSensorsKey = 'user_sensors';

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/core/app_routes.dart';
-import 'package:iot_lab4/data/repositories/auth_repository.dart';
-import 'package:iot_lab4/data/repositories/local_auth_repository.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/core/app_routes.dart';
+import 'package:smart_iot_app/data/repositories/auth_repository.dart';
+import 'package:smart_iot_app/data/repositories/local_auth_repository.dart';
 
 // Цей екран перевіряє, чи є збережена сесія (авто-логін)
 class AuthCheckPage extends StatefulWidget {

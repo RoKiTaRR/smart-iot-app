@@ -1,13 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="iot_lab4"
+        android:label="smart_iot_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name="com.example.iot_lab4.MainActivity"
+            android:name="com.example.smart_iot_app.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
@@ -35,3 +35,4 @@
         </intent>
     </queries>
 </manifest>
+

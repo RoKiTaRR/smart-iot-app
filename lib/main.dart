@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/core/app_routes.dart';
-import 'package:iot_lab4/core/service_locator.dart';
-import 'package:iot_lab4/services/connectivity_service.dart';
-import 'package:iot_lab4/services/mqtt_service.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/core/app_routes.dart';
+import 'package:smart_iot_app/core/service_locator.dart';
+import 'package:smart_iot_app/services/connectivity_service.dart';
+import 'package:smart_iot_app/services/mqtt_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {

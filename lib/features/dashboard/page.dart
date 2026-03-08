@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/core/app_routes.dart';
-import 'package:iot_lab4/data/models/sensor.dart';
-import 'package:iot_lab4/data/repositories/api_sensor_repository.dart';
-import 'package:iot_lab4/data/repositories/local_sensor_repository.dart';
-import 'package:iot_lab4/services/connectivity_service.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/core/app_routes.dart';
+import 'package:smart_iot_app/data/models/sensor.dart';
+import 'package:smart_iot_app/data/repositories/api_sensor_repository.dart';
+import 'package:smart_iot_app/data/repositories/local_sensor_repository.dart';
+import 'package:smart_iot_app/services/connectivity_service.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {

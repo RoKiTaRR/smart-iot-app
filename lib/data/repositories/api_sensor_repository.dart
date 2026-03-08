@@ -1,6 +1,6 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:iot_lab4/data/models/sensor.dart';
+import 'package:smart_iot_app/data/models/sensor.dart';
 
 class ApiSensorRepository {
   final String _url = 'https://randomuser.me/api/?results=5&nat=us';

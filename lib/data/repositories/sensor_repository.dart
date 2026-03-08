@@ -1,4 +1,4 @@
-import 'package:iot_lab4/data/models/sensor.dart';
+﻿import 'package:smart_iot_app/data/models/sensor.dart';
 
 // Ця абстракція залишається з Лаби 3
 abstract class SensorRepository {

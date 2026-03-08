@@ -1,4 +1,4 @@
-import 'package:iot_lab4/data/models/user.dart';
+﻿import 'package:smart_iot_app/data/models/user.dart';
 
 abstract class AuthRepository {
   Future<void> register(User user);

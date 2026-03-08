@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/core/app_routes.dart';
-import 'package:iot_lab4/data/repositories/auth_repository.dart';
-import 'package:iot_lab4/data/repositories/local_auth_repository.dart';
-import 'package:iot_lab4/features/shared_widgets/custom_button.dart';
-import 'package:iot_lab4/features/shared_widgets/custom_textfield.dart';
-import 'package:iot_lab4/services/connectivity_service.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/core/app_routes.dart';
+import 'package:smart_iot_app/data/repositories/auth_repository.dart';
+import 'package:smart_iot_app/data/repositories/local_auth_repository.dart';
+import 'package:smart_iot_app/features/shared_widgets/custom_button.dart';
+import 'package:smart_iot_app/features/shared_widgets/custom_textfield.dart';
+import 'package:smart_iot_app/services/connectivity_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

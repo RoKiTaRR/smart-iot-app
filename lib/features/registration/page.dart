@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/data/models/user.dart';
-import 'package:iot_lab4/data/repositories/auth_repository.dart';
-import 'package:iot_lab4/data/repositories/local_auth_repository.dart';
-import 'package:iot_lab4/features/shared_widgets/custom_button.dart';
-import 'package:iot_lab4/features/shared_widgets/custom_textfield.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/data/models/user.dart';
+import 'package:smart_iot_app/data/repositories/auth_repository.dart';
+import 'package:smart_iot_app/data/repositories/local_auth_repository.dart';
+import 'package:smart_iot_app/features/shared_widgets/custom_button.dart';
+import 'package:smart_iot_app/features/shared_widgets/custom_textfield.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});

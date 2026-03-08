@@ -1,6 +1,6 @@
-{
-    "name": "iot_lab4",
-    "short_name": "iot_lab4",
+﻿{
+    "name": "smart_iot_app",
+    "short_name": "smart_iot_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
@@ -33,3 +33,4 @@
         }
     ]
 }
+

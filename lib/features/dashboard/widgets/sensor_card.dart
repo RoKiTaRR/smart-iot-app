@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/data/models/sensor.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/data/models/sensor.dart';
 
 // Цей віджет більше не використовується на дашборді, але залишається з Лаби 3
 class SensorCard extends StatelessWidget {

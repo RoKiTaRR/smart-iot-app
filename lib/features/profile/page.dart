@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/core/app_routes.dart';
-import 'package:iot_lab4/data/models/user.dart';
-import 'package:iot_lab4/data/repositories/auth_repository.dart';
-import 'package:iot_lab4/data/repositories/local_auth_repository.dart';
-import 'package:iot_lab4/features/shared_widgets/custom_button.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/core/app_routes.dart';
+import 'package:smart_iot_app/data/models/user.dart';
+import 'package:smart_iot_app/data/repositories/auth_repository.dart';
+import 'package:smart_iot_app/data/repositories/local_auth_repository.dart';
+import 'package:smart_iot_app/features/shared_widgets/custom_button.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

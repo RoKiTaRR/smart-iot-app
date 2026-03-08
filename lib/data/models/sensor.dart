@@ -1,4 +1,4 @@
-class Sensor {
+﻿class Sensor {
   Sensor({
     required this.id,
     required this.roomName,

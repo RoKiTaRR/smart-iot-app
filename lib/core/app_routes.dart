@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:iot_lab4/features/auth_check/page.dart';
-import 'package:iot_lab4/features/dashboard/page.dart';
-import 'package:iot_lab4/features/login/page.dart';
-import 'package:iot_lab4/features/profile/page.dart';
-import 'package:iot_lab4/features/registration/page.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:smart_iot_app/features/auth_check/page.dart';
+import 'package:smart_iot_app/features/dashboard/page.dart';
+import 'package:smart_iot_app/features/login/page.dart';
+import 'package:smart_iot_app/features/profile/page.dart';
+import 'package:smart_iot_app/features/registration/page.dart';
 
 class AppRoutes {
   static const String authCheck = '/';
