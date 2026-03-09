@@ -382,25 +382,5 @@ class _DashboardPageState extends State<DashboardPage> {
         ],
       ),
     );
-  }
 }
-    } else {
-      icon = Icons.sensors;
-    }
-
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.blueGrey[50],
-          child: Icon(icon, color: Colors.blueGrey),
-        ),
-        title: Text(sensor.roomName, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text('Temp: ${sensor.temp}°C | CO2: ${sensor.co2} ppm'),
-        trailing: Text('${sensor.humidity}%', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-      ),
-    );
-  }
 }

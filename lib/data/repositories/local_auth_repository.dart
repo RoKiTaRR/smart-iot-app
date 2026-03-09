@@ -1,34 +1,34 @@
-﻿import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+﻿import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_iot_app/data/models/user.dart';
 import 'package:smart_iot_app/data/repositories/auth_repository.dart';
 
-// Логіка автентифікації, тепер з SecureStorage
+// Authentication logic using SharedPreferences for web compatibility
 class LocalAuthRepository implements AuthRepository {
-  final _storage = const FlutterSecureStorage();
-
   static const String _kUserSessionToken = 'user_session_token';
   static const String _kUserName = 'user_name';
   static const String _kUserEmail = 'user_email';
-  static const String _kUserPassword = 'user_password'; // Тільки для лаби
+  static const String _kUserPassword = 'user_password'; // Only for demo
 
   @override
   Future<void> register(User user) async {
-    await _storage.write(key: _kUserName, value: user.name);
-    await _storage.write(key: _kUserEmail, value: user.email);
-    await _storage.write(key: _kUserPassword, value: user.password);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_kUserName, user.name);
+    await prefs.setString(_kUserEmail, user.email);
+    await prefs.setString(_kUserPassword, user.password);
   }
 
   @override
   Future<User?> login(String email, String password) async {
-    final storedEmail = await _storage.read(key: _kUserEmail);
-    final storedPassword = await _storage.read(key: _kUserPassword);
+    final prefs = await SharedPreferences.getInstance();
+    final storedEmail = prefs.getString(_kUserEmail);
+    final storedPassword = prefs.getString(_kUserPassword);
 
     if (email == storedEmail && password == storedPassword) {
-      final storedName = await _storage.read(key: _kUserName) ?? 'No Name';
-      
-      // Створюємо "токен сесії"
-      final sessionToken = 'fake_token_for_${email}';
-      await _storage.write(key: _kUserSessionToken, value: sessionToken);
+      final storedName = prefs.getString(_kUserName) ?? 'No Name';
+
+      // Create 'session token'
+      final sessionToken = 'fake_token_for_';
+      await prefs.setString(_kUserSessionToken, sessionToken);
 
       return User(name: storedName, email: email, password: password);
     }
@@ -37,11 +37,12 @@ class LocalAuthRepository implements AuthRepository {
 
   @override
   Future<User?> getLoggedInUser() async {
-    // Перевіряємо, чи є ТОКЕН
-    final token = await _storage.read(key: _kUserSessionToken);
+    final prefs = await SharedPreferences.getInstance();
+    // Check if TOKEN exists
+    final token = prefs.getString(_kUserSessionToken);
     if (token != null) {
-      final name = await _storage.read(key: _kUserName) ?? 'No Name';
-      final email = await _storage.read(key: _kUserEmail) ?? 'No Email';
+      final name = prefs.getString(_kUserName) ?? 'No Name';
+      final email = prefs.getString(_kUserEmail) ?? 'No Email';
       return User(name: name, email: email, password: '');
     }
     return null;
@@ -49,7 +50,8 @@ class LocalAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    // Видаляємо ЛИШЕ токен
-    await _storage.delete(key: _kUserSessionToken);
+    final prefs = await SharedPreferences.getInstance();
+    // Remove ONLY token
+    await prefs.remove(_kUserSessionToken);
   }
 }
