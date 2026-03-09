@@ -1,5 +1,5 @@
-﻿name: smart_iot_app
-description: "A new Flutter project."
+name: smart_iot_app
+description: "A comprehensive cross-platform IoT application for monitoring air quality and environmental sensors in smart homes. Features real-time data, offline mode, and multi-platform deployment."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
